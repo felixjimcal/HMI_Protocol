@@ -1,0 +1,25 @@
+ECUs diferentes, red de comunicación, 
+ECU for each Application (GPS)
+ECU HMI (Pantalla con botones)
+Todas las ECU interaccionan con la HMI,
+Las ECU envian info al mismo tiempo al HMI o simultaneamente no hay un orden
+
+
+NOTES:
+sockets for can bus, ZMQ?
+Asegura que envias la info a la APP correcta, un mapa de APP y socket asignado
+Gestionar acceso al HMI, una cola
+
+
+Parece que es como en IRIS, una app que con sockets se comunica con diferentes sensores (ECUS)
+estos sensores envían información de forma ininterrumpida entonces hay que recolectar esa 
+información y mostrarla en pantalla, se pulsará una acción y se le devolvera una respuesta.
+
+Entonces hace falta un COLLECTOR, un thread que recoge todos los mensajes de los sensores,
+Un thread para el HMI que contendrá una cola para cada mensaje recivido
+Cuando el HMI responda a la applicación se mandará la respuesta mediante el socket de la app
+Eso quiere decir: 1APP = 1PORT Socket.
+
+Probablemente tengamos varios sensores con el mismo puerto socket, aunque estos tendrán una 
+plantilla diferente (keys y values) se manda el json por el mismo puerto que vino y el 
+receptor correspondiente se encarga de identificarse
